@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model Library.Domain.DTOs.Shelves.ShelfDTO
+
+@{
+    ViewData["Title"] = Localizer["Details"];
+}
+
+<div class="container">
+    <h1 class="mt-4">@Localizer["Shelf Details"] : @Html.DisplayFor(model => model.Name)</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Localizer["ID"]</th>
+                <th>@Localizer["Title"]</th>
+                <th>@Localizer["Author"]</th>
+                <th>@Localizer["Created At"]</th>
+                <th>@Localizer["Description"]</th>
+                <th>@Localizer["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int counter = 1;
+            }
+            @foreach (var book in (List<Library.Domain.DTOs.Books.BookDTO>)ViewData["Books"])
+            {
+                <tr>
+                    <td>
+                        @counter
+                        @{
+                            counter++;
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => book.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => book.Author)</td>
+                    <td>@Html.DisplayFor(modelItem => book.CreatedAt)</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal-@counter">
+                            @Localizer["Description"]
+                        </button>
+                        <div class="modal fade" id="exampleModal-@counter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">@Html.DisplayFor(modelItem => book.Title) @Localizer["Description"]</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @Html.DisplayFor(modelItem => book.Description)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Book" asp-route-id="@book.Id" class="btn btn-secondary btn-sm">@Localizer["Edit"]</a> |
+                        <a asp-action="Delete" asp-controller="Book" asp-route-id="@book.Id" class="btn btn-danger btn-sm">@Localizer["Delete"]</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>
+        <a asp-action="Create" asp-controller="Book" asp-route-shelfId="@Model.Id" class="btn btn-primary">@Localizer["Add Book"]</a> |
+        <a asp-action="Index" class="btn btn-secondary">@Localizer["Back to List"]</a>
+    </p>
+</div>

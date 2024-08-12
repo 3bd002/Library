@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["WelcomeMessage"];
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName;
+}
+
+<div class="container mt-5">
+    <div class="jumbotron text-center bg-light p-5 rounded">
+        <h1 class="display-4">@Localizer["WelcomeMessage"]</h1>
+        <p class="lead">@Localizer["LeadMessage"]</p>
+        <hr class="my-4">
+        <p>@Localizer["ExploreMessage"]</p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Shelf")" role="button">@Localizer["BrowseShelves"]</a>
+    </div>
+
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <a href="@Url.Action("SetLanguage", "Home", new { culture = "en", returnUrl = Context.Request.Path })"
+               class="btn btn-link @(currentCulture == "en" ? "font-weight-bold" : "")">English</a>
+        </li>
+        <li class="list-inline-item">
+            <a href="@Url.Action("SetLanguage", "Home", new { culture = "ar", returnUrl = Context.Request.Path })"
+               class="btn btn-link @(currentCulture == "ar" ? "font-weight-bold" : "")">العربية</a>
+        </li>
+    </ul>
+</div>
