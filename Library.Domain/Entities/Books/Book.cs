@@ -10,6 +10,8 @@ public class Book
     public string Author { get; set; }
     public string Description { get; set; }
     public string CreatedAt { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public string hello { get; set; }
     public int ShelfId { get; set; }
     public Shelf Shelf { get; set; }
 }
